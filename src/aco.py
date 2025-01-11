@@ -7,7 +7,7 @@ class ColoracaoFormigas:
         self.grafo = grafo
         self.num_formigas = num_formigas
         self.num_iteracoes = num_iteracoes
-        self.num_max_cores = len(self.grafo.vertices) + 1
+        self.num_max_cores = self.grafo.num_vertices + 1
         
         # parametros de controle do feromonio
         self.taxa_evaporacao = taxa_evaporacao  # Agora recebido como parâmetro
@@ -21,7 +21,7 @@ class ColoracaoFormigas:
         o valor na posicao [i][j] representa a quantidade de feromonio para o vertice i usar a cor j
         """
         # cria uma matriz num_vertices X num_cores preenchida com 1.0 (valor inicial dos feromonios)
-        return [[1.0] * self.num_max_cores for _ in range(len(self.grafo.vertices))]
+        return [[1.0] * self.num_max_cores for _ in range(self.grafo.num_vertices)]
 
 
     def cores_disponiveis(self, vertice, coloracao):
@@ -62,9 +62,9 @@ class ColoracaoFormigas:
         uma única formiga cria uma possível coloração para o grafo.
         a ordem dos vertices é aleatória e as escolhas são baseadas no feromonio.
         """
-        coloracao = [-1] * len(self.grafo.vertices)
+        coloracao = [-1] * self.grafo.num_vertices
         
-        ordem_coloracao = list(range(len(self.grafo.vertices)))
+        ordem_coloracao = list(range(self.grafo.num_vertices))
         random.shuffle(ordem_coloracao)
         
         for indice_vertice in ordem_coloracao:
@@ -81,7 +81,7 @@ class ColoracaoFormigas:
         primeiro evapora parte do feromonio antigo, depois adiciona novo feromonio proporcional à qualidade das soluções.
         """
         # evaporação do feromonio
-        for i in range(len(self.grafo.vertices)):
+        for i in range(self.grafo.num_vertices):
             for j in range(self.num_max_cores):
                 self.feromonios[i][j] *= (1 - self.taxa_evaporacao)
 
